@@ -1,23 +1,24 @@
-# MCP-Math
+# MCP-Cipher
 
-**MCP-Math** is a Java-based [Model Context Protocol (MCP)](https://modelcontextprotocol.io) compatible tool that provides a suite of essential mathematical operations.
+**MCP-Cipher** is a Java-based [Model Context Protocol (MCP)](https://modelcontextprotocol.io) compatible tool that provides cryptographic operations such as AES/RSA encryption, hashing, HMAC, and key generation.
 
 It is designed to be used by any AI agent or tool host that supports the MCP specification.
 
-### ⚡ Fast, Accurate, and Lightweight
-MCP-Math is engineered to deliver **fast execution**, **mathematically accurate results**, and **minimal resource overhead**. Each function is finely tuned to ensure:
+### ⚡ Secure, Extensible, and Lightweight
 
-- **High performance** even at scale (verified with performance tests)
-- **Reliable outputs** with well-tested edge case handling
-- **Minimal dependencies** for fast loading and lightweight deployment
+MCP-Cipher is designed to be:
 
+- **Secure**, using standard Java crypto libraries (AES, RSA, SHA, HMAC)
+- **Extensible**, with modular classes (`AESTool`, `RSATool`, `HashTool`)
+- **Lightweight**, using no external cryptography dependencies
+  
 ---
 
 ## Installation
 
 ### ☕ Java Requirements
 
-MCP-Math requires **Java 21 or higher** to run properly.
+MCP-Cipher requires **Java 21 or higher** to run properly.
 
 ### 🔹 For Claude Desktop Users
 
@@ -26,11 +27,11 @@ MCP-Math requires **Java 21 or higher** to run properly.
     ```json
     {
       "mcpServers": {
-        "mcp-math": {
+        "mcp-cipher": {
           "command": "java",
           "args": [
             "-jar",
-            "https://github.com/key824999/MCP-Math/releases/download/v0.1.0/mcp-math.jar"
+            "https://github.com/key824999/MCP-Cipher/releases/download/v0.1.0/mcp-cipher.jar"
           ]
         }
       }
@@ -38,7 +39,7 @@ MCP-Math requires **Java 21 or higher** to run properly.
     ```
 
 2. Restart Claude Desktop or refresh your MCP server list.
-3. You can now use mathematical functions like `sqrt`, `pow`, `mean`, `factorial`, and more directly through Claude.
+3. You can now use cryptographic functions such as `encryptAES`, `generateRSAKeyPair`, `generateSHA256`, and more.
 
 > ⚠️ **Note for multiple MCP servers**
 >
@@ -50,11 +51,11 @@ MCP-Math requires **Java 21 or higher** to run properly.
 > ```json
 > {
 >   "mcpServers": {
->     "mcp-math": {
+>     "mcp-cipher": {
 >       "command": "java",
 >       "args": [
 >         "-jar",
->         "https://github.com/key824999/MCP-Math/releases/download/v0.1.0/mcp-math.jar"
+>         "https://github.com/key824999/MCP-Cipher/releases/download/v0.1.0/mcp-cipher.jar"
 >       ]
 >     },
 >     "another-mcp-server": {
@@ -74,74 +75,45 @@ MCP-Math requires **Java 21 or higher** to run properly.
 To install this tool using the MCP CLI:
 
 ```bash
-npx mcp add https://raw.githubusercontent.com/key824999/MCP-Math/refs/heads/master/manifest.json
+npx mcp add https://raw.githubusercontent.com/key824999/MCP-Cipher/refs/heads/master/manifest.json
 ```
 
 ## Features by Category
 
-### 📘 Basic Math
-- `sqrt(double num)` – Square root
-- `square(double num)` – Square
-- `pow(double base, double exponent)` – Exponentiation
-- `abs(double num)` – Absolute value
-- `log(double num)` – Natural log
-- `log10(double num)` – Log base 10
-- `sin(double radians)`, `cos(double radians)`, `tan(double radians)` – Trigonometric functions
-- `round(double num)` – Rounding
-- `max(double a, double b)`, `min(double a, double b)` – Max/Min
-- `mod(double a, double b)` – Modulo
-- `ceil(double num)`, `floor(double num)` – Ceiling/Floor
-- `gcd(int a, int b)`, `lcm(int a, int b)` – GCD/LCM
-- `degToRad(double degrees)`, `radToDeg(double radians)` – Angle conversions
-- `factorial(int n)` – Factorial
+### 🔐 AES (AESTool)
+- `encryptAES(plainText, key)` – AES encryption (ECB mode, Base64)
+- `decryptAES(cipherText, key)` – AES decryption
+- `encryptAESWithIV(plainText, key)` – AES CBC mode with random IV (returns IV:cipherText)
+- `decryptAESWithIV(cipherWithIV, key)` – AES CBC decryption
+- `generateAESKey(bitSize)` – Generate 128/192/256-bit AES key
+- `validateAESKey(key)` – Check key validity (length, non-null)
+- `encryptJSON(json, key)` – AES CBC encryption for JSON
+- `decryptJSON(cipher, key)` – AES CBC decryption for JSON
+- `toHex(byte[])` / `fromHex(hex)` – Hex encoding/decoding
 
-### 📊 Statistics
-- `mean(List<Double> numbers)` – Mean
-- `median(List<Double> numbers)` – Median
-- `mode(List<Double> numbers)` – Mode
-- `range(List<Double> numbers)` – Range
-- `variance(List<Double> numbers)` – Sample Variance
-- `standardDeviation(List<Double> numbers)` – Sample Standard Deviation
-- `sum(List<Double> numbers)` – Sum
-- `count(List<Double> numbers)` – Count
+### 🔐 RSA (RSATool)
+- `generateRSAKeyPair()` – Generates a Base64 public/private key pair
+- `encryptRSA(plainText, publicKey)` – Encrypt using public key
+- `decryptRSA(cipherText, privateKey)` – Decrypt using private key
+- `encryptLongRSA(plainText, publicKey)` – Encrypt long string (chunked)
+- `decryptLongRSA(cipherText, privateKey)` – Decrypt long RSA text
+- `signData(data, privateKey)` – Sign data using RSA private key
+- `verifySignature(data, signature, publicKey)` – Verify RSA signature
+- `formatKeyToPEM(base64Key, isPublic)` – Convert Base64 key to PEM format
+- `decryptPEMKey(pem, isPublic)` – Extract Base64 from PEM
+- `signJSON(json, privateKey)` – Sign full JSON document
+- `validateRSAKey(base64Key)` – Check if Base64 RSA key looks valid
 
-### 🔢 Combinatorics
-- `factorial(int n)` – Factorial
-- `nCr(int n, int r)` – Combinations
-- `nPr(int n, int r)` – Permutations
-- `multiFactorial(int n, int k)` – k-step Factorial
-- `catalanNumber(int n)` – Catalan Number
-
-### 🔍 Prime Numbers
-- `isPrime(int num)` – Prime check
-- `nextPrime(int num)` – Next prime
-- `countPrimesUpTo(int n)` – Prime count up to n
-- `listPrimesInRange(int start, int end)` – List primes in range
-- `primeFactors(int n)` – Prime factorization
-
-### 🔁 Sequences
-- `fibonacci(int n)` – Fibonacci n-th term
-- `arithmeticTerm(long a, long d, int n)` – Arithmetic n-th term
-- `geometricTerm(long a, long r, int n)` – Geometric n-th term
-- `sumArithmeticSeries(long a, long d, int n)` – Arithmetic sum
-- `sumGeometricSeries(long a, long r, int n)` – Geometric sum
-- `isFibonacci(long num)` – Fibonacci membership
-- `sumFibonacci(int n)` – Fibonacci sum
-- `generateArithmeticSequence(long a, long d, int n)` – Arithmetic list
-- `generateGeometricSequence(long a, long r, int n)` – Geometric list
-- `nthTriangularNumber(int n)` – Triangular number
-
-### 📐 Geometry
-- `circleArea(double radius)` – Circle area
-- `circleCircumference(double radius)` – Circle circumference
-- `triangleArea(double base, double height)` – Triangle area (base/height)
-- `trianglePerimeter(double a, double b, double c)` – Triangle perimeter
-- `heronArea(double a, double b, double c)` – Triangle area (Heron's formula)
-- `pythagorean(double a, double b)` – Hypotenuse (Pythagorean theorem)
-- `rectangleArea(double width, double height)` – Rectangle area
-- `rectanglePerimeter(double width, double height)` – Rectangle perimeter
-- `distance2D(double x1, double y1, double x2, double y2)` – 2D distance
-- `distance3D(double x1, double y1, double z1, double x2, double y2, double z2)` – 3D distance
+### 🔒 Hashing (HashTool)
+- `generateSHA256(input)` – SHA-256 hash (hex)
+- `generateSHA512(input)` – SHA-512 hash (hex)
+- `generateMD5(input)` – MD5 hash (hex)
+- `compareHash(input, expectedHash, algorithm)` – Compare string with hash
+- `generateSaltedHash(input, salt, algorithm)` – Salted hash
+- `generateRandomSalt(length)` – Generate secure random salt
+- `isHash(input)` – Check if string looks like a valid hash
+- `isHashMatchWithSalt(input, salt, expectedHash, algorithm)` – Salted hash comparison
+- `hashBase64(input, algorithm)` – Generate Base64-encoded hash
 
 > ℹ️ All functions are annotated with `@Tool` and can be auto-discovered by any compliant MCP host at runtime.
 
@@ -149,10 +121,11 @@ npx mcp add https://raw.githubusercontent.com/key824999/MCP-Math/refs/heads/mast
 
 Once installed in an MCP-compatible host:
 
-- `sqrt(25)` returns `5`
-- `pow(2, 4)` returns `16`
-- `round(3.7)` returns `4`
-- `cos(0)` returns `1`
+- `encryptAES("hello", "mys3cretKey")` → `Base64EncryptedText`
+- `decryptAESWithIV("IV:Base64Cipher", "mys3cretKey")` → `hello`
+- `generateRSAKeyPair()` → `{ publicKey, privateKey }`
+- `signData("important", privateKey)` → `Base64Signature`
+- `generateSHA256("secure")` → `HexSHA256Hash`
 
 ## Technical Details
 
@@ -176,7 +149,7 @@ This will:
 
 The following files will be generated and should be committed:
 
-- `libs/MCP-Math-0.0.1-SNAPSHOT.jar`
+- `libs/MCP-Cipher-0.0.1-SNAPSHOT.jar`
 - `manifest.json`
 
 ## License

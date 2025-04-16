@@ -36,7 +36,7 @@ tasks.register('generateManifest', JavaExec) {
     group = 'build'
     description = 'Generates manifest.json from @Tool annotations'
     classpath = sourceSets.main.runtimeClasspath
-    mainClass = 'mcp.math.ManifestGenerator'
+    mainClass = 'mcp.cipher.ManifestGenerator'
 }
 
 // Task: copy the Spring Boot executable JAR to ./libs for publishing
@@ -50,4 +50,8 @@ tasks.register('copyJarToLibs', Copy) {
 tasks.named('build') {
     dependsOn tasks.named('generateManifest')
     dependsOn tasks.named('copyJarToLibs')
+}
+
+tasks.named('bootJar') {
+    archiveVersion.set(version)
 }

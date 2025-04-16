@@ -1,396 +1,212 @@
 {
-  "tool_name" : "MCP-Math",
+  "tool_name" : "MCP-Cipher",
   "version" : "0.0.1",
-  "description" : "A Java-based MCP-compatible tool that provides mathematical operations such as sqrt, pow, log, trig functions, rounding, and more.",
+  "description" : "A Java-based MCP-compatible tool that provides encryption, decryption, hashing, HMAC, and key generation functionalities using AES, RSA, SHA-256, and more.",
   "entrypoint" : {
     "command" : "java",
-    "args" : [ "-jar", "./libs/MCP-Math-0.0.1-SNAPSHOT.jar" ]
+    "args" : [ "-jar", "./libs/MCP-Cipher-0.0.1-SNAPSHOT.jar" ]
   },
   "actions" : [ {
-    "name" : "abs",
-    "description" : "Returns the absolute value of a number. For example, abs(-5) returns 5.",
+    "name" : "encryptAES",
+    "description" : "Encrypts plaintext using AES in ECB mode (Base64 encoded).",
     "parameters" : {
-      "num" : "number"
+      "plainText" : "string",
+      "secretKey" : "string"
     }
   }, {
-    "name" : "sin",
-    "description" : "Returns the sine of an angle in radians. For example, sin(Math.PI/2) returns 1.",
+    "name" : "toHex",
+    "description" : "Encodes byte array to hex string.",
     "parameters" : {
-      "radians" : "number"
+      "bytes" : "any"
     }
   }, {
-    "name" : "cos",
-    "description" : "Returns the cosine of an angle in radians. For example, cos(0) returns 1.",
+    "name" : "decryptAES",
+    "description" : "Decrypts AES-encrypted Base64 text using ECB mode.",
     "parameters" : {
-      "radians" : "number"
+      "encryptedText" : "string",
+      "secretKey" : "string"
     }
   }, {
-    "name" : "tan",
-    "description" : "Returns the tangent of an angle in radians. For example, tan(Math.PI/4) returns approximately 1.",
+    "name" : "fromHex",
+    "description" : "Decodes hex string to Base64 string.",
     "parameters" : {
-      "radians" : "number"
+      "hex" : "string"
     }
   }, {
-    "name" : "sqrt",
-    "description" : "Returns the square root of the given number. For example, sqrt(9) returns 3.",
+    "name" : "validateAESKey",
+    "description" : "Validates the AES key. Must be non-empty and at least 8 characters.",
     "parameters" : {
-      "num" : "number"
+      "key" : "string"
     }
   }, {
-    "name" : "log",
-    "description" : "Returns the natural logarithm (base e) of a number. For example, log(2.718) returns approximately 1.",
+    "name" : "encryptAESWithIV",
+    "description" : "Encrypts plaintext using AES in CBC mode with random IV. Returns IV:cipherText in Base64.",
     "parameters" : {
-      "num" : "number"
+      "plainText" : "string",
+      "secretKey" : "string"
     }
   }, {
-    "name" : "log10",
-    "description" : "Returns the base-10 logarithm of a number. For example, log10(100) returns 2.",
+    "name" : "generateAESKey",
+    "description" : "Generates a random AES key of the given bit size (128, 192, or 256).",
     "parameters" : {
-      "num" : "number"
+      "bitSize" : "number"
     }
   }, {
-    "name" : "pow",
-    "description" : "Raises a number to the power of n. For example, pow(2, 3) returns 8.",
+    "name" : "decryptJSON",
+    "description" : "Decrypts a previously encrypted JSON string (AES CBC IV:cipherText format).",
     "parameters" : {
-      "num" : "number",
-      "n" : "number"
+      "encryptedJson" : "string",
+      "secretKey" : "string"
     }
   }, {
-    "name" : "min",
-    "description" : "Returns the minimum of two numbers. For example, min(10, 15) returns 10.",
+    "name" : "decryptAESWithIV",
+    "description" : "Decrypts AES CBC-encrypted Base64 text formatted as IV:cipherText.",
     "parameters" : {
-      "a" : "number",
-      "b" : "number"
+      "encryptedWithIV" : "string",
+      "secretKey" : "string"
     }
   }, {
-    "name" : "max",
-    "description" : "Returns the maximum of two numbers. For example, max(10, 15) returns 15.",
+    "name" : "encryptJSON",
+    "description" : "Encrypts a JSON string using AES CBC with IV. Returns Base64 IV:cipherText.",
     "parameters" : {
-      "a" : "number",
-      "b" : "number"
+      "json" : "string",
+      "secretKey" : "string"
     }
   }, {
-    "name" : "floor",
-    "description" : "Returns the greatest integer less than or equal to the given number. For example, floor(4.8) returns 4.",
+    "name" : "generateSHA256",
+    "description" : "Generates a SHA-256 hash of the input string (hex encoded).",
     "parameters" : {
-      "num" : "number"
+      "input" : "string"
     }
   }, {
-    "name" : "ceil",
-    "description" : "Returns the smallest integer greater than or equal to the given number. For example, ceil(4.2) returns 5.",
+    "name" : "generateMD5",
+    "description" : "Generates an MD5 hash of the input string (hex encoded, insecure).",
     "parameters" : {
-      "num" : "number"
+      "input" : "string"
     }
   }, {
-    "name" : "round",
-    "description" : "Rounds the given number to the nearest integer. For example, round(4.7) returns 5.",
+    "name" : "generateSaltedHash",
+    "description" : "Generates a hash of the input combined with a salt using the specified algorithm.",
     "parameters" : {
-      "num" : "number"
+      "input" : "string",
+      "salt" : "string",
+      "algorithm" : "string"
     }
   }, {
-    "name" : "mod",
-    "description" : "Returns a modulo b. For example, mod(10, 3) returns 1.",
+    "name" : "generateRandomSalt",
+    "description" : "Generates a random alphanumeric salt of the specified length.",
     "parameters" : {
-      "a" : "number",
-      "b" : "number"
+      "length" : "number"
     }
   }, {
-    "name" : "square",
-    "description" : "Calculates the square of the given number. For example, square(4) returns 16.",
+    "name" : "generateSHA512",
+    "description" : "Generates a SHA-512 hash of the input string (hex encoded).",
     "parameters" : {
-      "num" : "number"
+      "input" : "string"
     }
   }, {
-    "name" : "gcd",
-    "description" : "Returns the greatest common divisor of two integers. For example, gcd(12, 18) returns 6.",
+    "name" : "compareHash",
+    "description" : "Compares input string with expected hash using a given algorithm (SHA-256, SHA-512, or MD5).",
     "parameters" : {
-      "a" : "number",
-      "b" : "number"
+      "input" : "string",
+      "expectedHash" : "string",
+      "algorithm" : "string"
     }
   }, {
-    "name" : "lcm",
-    "description" : "Returns the least common multiple of two integers. For example, lcm(4, 6) returns 12.",
+    "name" : "isHash",
+    "description" : "Checks if the input string is a valid hexadecimal hash (e.g., SHA or MD5).",
     "parameters" : {
-      "a" : "number",
-      "b" : "number"
+      "input" : "string"
     }
   }, {
-    "name" : "factorial",
-    "description" : "Returns the factorial of a non-negative integer. For example, factorial(5) returns 120.",
+    "name" : "hashBase64",
+    "description" : "Generates a hash of the input and encodes the result as Base64.",
     "parameters" : {
-      "n" : "number"
+      "input" : "string",
+      "algorithm" : "string"
     }
   }, {
-    "name" : "radToDeg",
-    "description" : "Converts radians to degrees. For example, radToDeg(π) returns 180.",
+    "name" : "isHashMatchWithSalt",
+    "description" : "Checks whether the salted hash of input matches the expected hash using the specified algorithm.",
     "parameters" : {
-      "radians" : "number"
+      "input" : "string",
+      "salt" : "string",
+      "expectedHash" : "string",
+      "algorithm" : "string"
     }
   }, {
-    "name" : "degToRad",
-    "description" : "Converts degrees to radians. For example, degToRad(180) returns π.",
+    "name" : "generateRSAKeyPair",
+    "description" : "Generates an RSA public/private key pair and returns them as Base64 strings.",
+    "parameters" : { }
+  }, {
+    "name" : "signData",
+    "description" : "Signs data using a private RSA key and returns the Base64 signature.",
     "parameters" : {
-      "degrees" : "number"
+      "data" : "string",
+      "base64PrivateKey" : "string"
     }
   }, {
-    "name" : "factorial",
-    "description" : "Returns the factorial of n. For example, factorial(5) returns 120.",
+    "name" : "decryptRSA",
+    "description" : "Decrypts RSA-encrypted Base64 text using a Base64-encoded private key.",
     "parameters" : {
-      "n" : "number"
+      "cipherText" : "string",
+      "base64PrivateKey" : "string"
     }
   }, {
-    "name" : "catalanNumber",
-    "description" : "Returns the n-th Catalan number. For example, catalanNumber(3) returns 5.",
+    "name" : "signJSON",
+    "description" : "Signs a JSON string using RSA and returns the Base64 signature.",
     "parameters" : {
-      "n" : "number"
+      "json" : "string",
+      "base64PrivateKey" : "string"
     }
   }, {
-    "name" : "multiFactorial",
-    "description" : "Returns the k-step factorial of n (multi-factorial). For example, multiFactorial(9, 2) returns 945.",
+    "name" : "encryptRSA",
+    "description" : "Encrypts a string using a Base64-encoded RSA public key.",
     "parameters" : {
-      "n" : "number",
-      "k" : "number"
+      "plainText" : "string",
+      "base64PublicKey" : "string"
     }
   }, {
-    "name" : "nPr",
-    "description" : "Returns n permute r (nPr), the number of permutations. For example, nPr(5, 2) returns 20.",
+    "name" : "validateRSAKey",
+    "description" : "Checks if the given Base64-encoded RSA key string is structurally valid.",
     "parameters" : {
-      "n" : "number",
-      "r" : "number"
+      "base64Key" : "string"
     }
   }, {
-    "name" : "nCr",
-    "description" : "Returns n choose r (nCr), the number of combinations. For example, nCr(5, 2) returns 10.",
+    "name" : "decryptPEMKey",
+    "description" : "Converts a PEM-formatted RSA key into a Base64-encoded string.",
     "parameters" : {
-      "n" : "number",
-      "r" : "number"
+      "pem" : "string",
+      "isPublic" : "number"
     }
   }, {
-    "name" : "circleCircumference",
-    "description" : "Returns the circumference of a circle. For example, circleCircumference(2) returns approximately 12.566.",
+    "name" : "formatKeyToPEM",
+    "description" : "Formats a Base64-encoded RSA key string into PEM format.",
     "parameters" : {
-      "radius" : "number"
+      "base64Key" : "string",
+      "isPublic" : "number"
     }
   }, {
-    "name" : "rectangleArea",
-    "description" : "Returns the area of a rectangle. For example, rectangleArea(4, 5) returns 20.",
+    "name" : "verifySignature",
+    "description" : "Verifies the RSA signature using the original data and a public key.",
     "parameters" : {
-      "width" : "number",
-      "height" : "number"
+      "data" : "string",
+      "base64Signature" : "string",
+      "base64PublicKey" : "string"
     }
   }, {
-    "name" : "rectanglePerimeter",
-    "description" : "Returns the perimeter of a rectangle. For example, rectanglePerimeter(4, 5) returns 18.",
+    "name" : "decryptLongRSA",
+    "description" : "Decrypts long RSA-encrypted text (Base64) using private key and automatic block merging.",
     "parameters" : {
-      "width" : "number",
-      "height" : "number"
+      "cipherText" : "string",
+      "base64PrivateKey" : "string"
     }
   }, {
-    "name" : "triangleArea",
-    "description" : "Returns the area of a triangle given base and height. For example, triangleArea(10, 5) returns 25.",
+    "name" : "encryptLongRSA",
+    "description" : "Encrypts long plaintext using RSA public key with automatic block splitting.",
     "parameters" : {
-      "base" : "number",
-      "height" : "number"
-    }
-  }, {
-    "name" : "circleArea",
-    "description" : "Returns the area of a circle with given radius. For example, circleArea(2) returns approximately 12.566.",
-    "parameters" : {
-      "radius" : "number"
-    }
-  }, {
-    "name" : "heronArea",
-    "description" : "Returns the area of a triangle using Heron's formula. For example, heronArea(3, 4, 5) returns 6.",
-    "parameters" : {
-      "a" : "number",
-      "b" : "number",
-      "c" : "number"
-    }
-  }, {
-    "name" : "distance3D",
-    "description" : "Returns the Euclidean distance between two points in 3D space. For example, distance3D(0, 0, 0, 1, 2, 2) returns 3.",
-    "parameters" : {
-      "x1" : "number",
-      "y1" : "number",
-      "z1" : "number",
-      "x2" : "number",
-      "y2" : "number",
-      "z2" : "number"
-    }
-  }, {
-    "name" : "distance2D",
-    "description" : "Returns the Euclidean distance between two points in 2D space. For example, distance2D(0, 0, 3, 4) returns 5.",
-    "parameters" : {
-      "x1" : "number",
-      "y1" : "number",
-      "x2" : "number",
-      "y2" : "number"
-    }
-  }, {
-    "name" : "trianglePerimeter",
-    "description" : "Returns the perimeter of a triangle given the lengths of its three sides. For example, trianglePerimeter(3, 4, 5) returns 12.",
-    "parameters" : {
-      "a" : "number",
-      "b" : "number",
-      "c" : "number"
-    }
-  }, {
-    "name" : "pythagorean",
-    "description" : "Returns the length of the hypotenuse of a right triangle given the other two sides. For example, pythagorean(3, 4) returns 5.",
-    "parameters" : {
-      "a" : "number",
-      "b" : "number"
-    }
-  }, {
-    "name" : "isPrime",
-    "description" : "Returns true if the given number is a prime. For example, isPrime(7) returns true.",
-    "parameters" : {
-      "num" : "number"
-    }
-  }, {
-    "name" : "nextPrime",
-    "description" : "Returns the next prime number greater than the given number. For example, nextPrime(10) returns 11.",
-    "parameters" : {
-      "num" : "number"
-    }
-  }, {
-    "name" : "primeFactors",
-    "description" : "Returns the list of prime factors of a number. For example, primeFactors(12) returns [2, 2, 3].",
-    "parameters" : {
-      "n" : "number"
-    }
-  }, {
-    "name" : "countPrimesUpTo",
-    "description" : "Returns the number of prime numbers from 2 up to n (inclusive). For example, countPrimesUpTo(10) returns 4.",
-    "parameters" : {
-      "n" : "number"
-    }
-  }, {
-    "name" : "listPrimesInRange",
-    "description" : "Returns a list of prime numbers between start and end (inclusive). For example, listPrimesInRange(10, 20) returns [11, 13, 17, 19].",
-    "parameters" : {
-      "start" : "number",
-      "end" : "number"
-    }
-  }, {
-    "name" : "generateGeometricSequence",
-    "description" : "Returns a list containing the first n terms of a geometric sequence. For example, generateGeometricSequence(2, 3, 4) returns [2, 6, 18, 54].",
-    "parameters" : {
-      "a" : "number",
-      "r" : "number",
-      "n" : "number"
-    }
-  }, {
-    "name" : "sumArithmeticSeries",
-    "description" : "Returns the sum of the first n terms in an arithmetic sequence. For example, sumArithmeticSeries(2, 3, 5) returns 40.",
-    "parameters" : {
-      "a" : "number",
-      "d" : "number",
-      "n" : "number"
-    }
-  }, {
-    "name" : "generateArithmeticSequence",
-    "description" : "Returns a list containing the first n terms of an arithmetic sequence. For example, generateArithmeticSequence(2, 3, 5) returns [2, 5, 8, 11, 14].",
-    "parameters" : {
-      "a" : "number",
-      "d" : "number",
-      "n" : "number"
-    }
-  }, {
-    "name" : "nthTriangularNumber",
-    "description" : "Returns the n-th triangular number (sum of 1 through n). For example, nthTriangularNumber(5) returns 15.",
-    "parameters" : {
-      "n" : "number"
-    }
-  }, {
-    "name" : "fibonacci",
-    "description" : "Returns the n-th number in the Fibonacci sequence. For example, fibonacci(5) returns 5.",
-    "parameters" : {
-      "n" : "number"
-    }
-  }, {
-    "name" : "arithmeticTerm",
-    "description" : "Returns the n-th term of an arithmetic sequence. For example, arithmeticTerm(2, 3, 5) returns 14.",
-    "parameters" : {
-      "a" : "number",
-      "d" : "number",
-      "n" : "number"
-    }
-  }, {
-    "name" : "sumFibonacci",
-    "description" : "Returns the sum of the first n Fibonacci numbers. For example, sumFibonacci(5) returns 12.",
-    "parameters" : {
-      "n" : "number"
-    }
-  }, {
-    "name" : "isFibonacci",
-    "description" : "Returns true if the number is a Fibonacci number. For example, isFibonacci(21) returns true.",
-    "parameters" : {
-      "num" : "number"
-    }
-  }, {
-    "name" : "geometricTerm",
-    "description" : "Returns the n-th term of a geometric sequence. For example, geometricTerm(2, 3, 4) returns 54.",
-    "parameters" : {
-      "a" : "number",
-      "r" : "number",
-      "n" : "number"
-    }
-  }, {
-    "name" : "sumGeometricSeries",
-    "description" : "Returns the sum of the first n terms in a geometric sequence. For example, sumGeometricSeries(2, 3, 4) returns 80.",
-    "parameters" : {
-      "a" : "number",
-      "r" : "number",
-      "n" : "number"
-    }
-  }, {
-    "name" : "mode",
-    "description" : "Returns the mode (most frequent value) of a list of numbers. If multiple values tie, returns the smallest. For example, mode([1, 2, 2, 3]) returns 2.",
-    "parameters" : {
-      "numbers" : "any"
-    }
-  }, {
-    "name" : "count",
-    "description" : "Returns the count of elements in the list.",
-    "parameters" : {
-      "numbers" : "any"
-    }
-  }, {
-    "name" : "sum",
-    "description" : "Returns the sum of the numbers.",
-    "parameters" : {
-      "numbers" : "any"
-    }
-  }, {
-    "name" : "range",
-    "description" : "Returns the range (max - min) of the numbers.",
-    "parameters" : {
-      "numbers" : "any"
-    }
-  }, {
-    "name" : "mean",
-    "description" : "Returns the average (mean) of a list of numbers. For example, mean([1, 2, 3, 4, 5]) returns 3.",
-    "parameters" : {
-      "numbers" : "any"
-    }
-  }, {
-    "name" : "median",
-    "description" : "Returns the median of a list of numbers. For example, median([3, 1, 4, 2, 5]) returns 3.",
-    "parameters" : {
-      "numbers" : "any"
-    }
-  }, {
-    "name" : "variance",
-    "description" : "Returns the sample variance of the numbers.",
-    "parameters" : {
-      "numbers" : "any"
-    }
-  }, {
-    "name" : "standardDeviation",
-    "description" : "Returns the sample standard deviation of the numbers.",
-    "parameters" : {
-      "numbers" : "any"
+      "plainText" : "string",
+      "base64PublicKey" : "string"
     }
   } ]
 }

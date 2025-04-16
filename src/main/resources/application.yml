@@ -1,5 +1,5 @@
 spring:
   application:
-    name: MCP-Math
+    name: MCP-Cipher
   main:
     banner-mode: off
