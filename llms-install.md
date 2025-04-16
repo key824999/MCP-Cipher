@@ -7,7 +7,7 @@ This server provides a lightweight, secure, and MCP-compatible cryptography tool
 To install and run the server locally:
 
 ```bash
-npx mcp add https://raw.githubusercontent.com/key824999/MCP-Cipher/main/manifest.json
+npx mcp add https://raw.githubusercontent.com/key824999/MCP-Cipher/refs/heads/master/manifest.json
 
 git clone https://github.com/key824999/MCP-Cipher.git
 cd MCP-Cipher
