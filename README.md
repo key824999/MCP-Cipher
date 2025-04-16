@@ -16,67 +16,7 @@ MCP-Cipher is designed to be:
 
 ## Installation
 
-### ☕ Java Requirements
-
-MCP-Cipher requires **Java 21 or higher** to run properly.
-
-### 🔹 For Claude Desktop Users
-
-1. Open your `claude_desktop_config.json` file and add the following configuration:
-
-    ```json
-    {
-      "mcpServers": {
-        "mcp-cipher": {
-          "command": "java",
-          "args": [
-            "-jar",
-            "https://github.com/key824999/MCP-Cipher/releases/download/v0.1.0/mcp-cipher.jar"
-          ]
-        }
-      }
-    }
-    ```
-
-2. Restart Claude Desktop or refresh your MCP server list.
-3. You can now use cryptographic functions such as `encryptAES`, `generateRSAKeyPair`, `generateSHA256`, and more.
-
-> ⚠️ **Note for multiple MCP servers**
->
-> If you're adding more than one MCP server in your `claude_desktop_config.json`,  
-> make sure each server block is separated by a comma `,`.
->
-> Example:
->
-> ```json
-> {
->   "mcpServers": {
->     "mcp-cipher": {
->       "command": "java",
->       "args": [
->         "-jar",
->         "https://github.com/key824999/MCP-Cipher/releases/download/v0.1.0/mcp-cipher.jar"
->       ]
->     },
->     "another-mcp-server": {
->       "command": "python",
->       "args": [
->         "another-tool.py"
->       ]
->     }
->   }
-> }
-> ```
-> 
-### 🔹 For MCP CLI Users
-
-> If you have [MCP CLI](https://www.npmjs.com/package/mcp) installed, you can register the tool using the following command:
-
-To install this tool using the MCP CLI:
-
-```bash
-npx mcp add https://raw.githubusercontent.com/key824999/MCP-Cipher/refs/heads/master/manifest.json
-```
+> Please refer to the [📄llms-install.md](./llms-install.md) file for step-by-step installation instructions for Claude Desktop, MCP CLI, and more.
 
 ## Features by Category
 
